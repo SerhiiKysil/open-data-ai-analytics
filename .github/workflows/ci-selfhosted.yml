@@ -5,7 +5,7 @@ on:
 
 jobs:
   run-local:
-    runs-on: self-hosted 
+    runs-on: self-hosted
 
     steps:
       - name: 1. Завантаження коду
@@ -13,22 +13,20 @@ jobs:
 
       - name: 2. Перевірка Python на твоєму ПК
         run: python --version
-        shell: bash
 
       - name: 3. Встановлення залежностей
         run: pip install pandas matplotlib seaborn
-        shell: bash
 
       - name: 4. Підготовка даних і запуск візуалізації
+        shell: powershell
         run: |
-          mkdir -p artifacts/visualization
-          mkdir -p data/raw
-          echo "BRAND;MAKE;MAKE_YEAR;COLOR;FUEL" > data/raw/reestrtz01.01.2026.csv
-          echo "TOYOTA;CAMRY;2020;БІЛИЙ;БЕНЗИН" >> data/raw/reestrtz01.01.2026.csv
+          New-Item -ItemType Directory -Force -Path artifacts/visualization
+          New-Item -ItemType Directory -Force -Path data/raw
+          "BRAND;MAKE;MAKE_YEAR;COLOR;FUEL" > data/raw/reestrtz01.01.2026.csv
+          "TOYOTA;CAMRY;2020;БІЛИЙ;БЕНЗИН" >> data/raw/reestrtz01.01.2026.csv
           
-          echo "Запускаємо скрипт на локальному ПК..."
+          Write-Host "Запускаємо скрипт на локальному ПК..."
           python src/visualization.py > artifacts/visualization/run.log 2>&1
-        shell: bash
 
       - name: 5. Збереження результатів
         uses: actions/upload-artifact@v4
