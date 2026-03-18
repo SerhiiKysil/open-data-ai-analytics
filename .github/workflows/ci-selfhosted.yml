@@ -11,25 +11,26 @@ jobs:
       - name: 1. Завантаження коду
         uses: actions/checkout@v4
 
-      - name: 2. Перевірка Python на твоєму ПК
+      - name: 2. Перевірка Python
         run: python --version
 
       - name: 3. Встановлення залежностей
         run: pip install pandas matplotlib seaborn
 
       - name: 4. Підготовка даних і запуск візуалізації
-        shell: powershell
+        shell: cmd
         run: |
-          New-Item -ItemType Directory -Force -Path artifacts/visualization
-          New-Item -ItemType Directory -Force -Path data/raw
+          if not exist "artifacts\visualization" mkdir "artifacts\visualization"
+          if not exist "data\raw" mkdir "data\raw"
           
-          "BRAND;MAKE;MAKE_YEAR;COLOR;FUEL" | Out-File -FilePath data/raw/reestrtz01.01.2026.csv -Encoding utf8
-          "TOYOTA;CAMRY;2020;WHITE;GAS" | Out-File -FilePath data/raw/reestrtz01.01.2026.csv -Append -Encoding utf8
+          echo Створюємо файл через Python...
+          python -c "with open('data/raw/reestrtz01.01.2026.csv', 'w', encoding='utf-8') as f: f.write('BRAND;MAKE;MAKE_YEAR;COLOR;FUEL\nTOYOTA;CAMRY;2020;БІЛИЙ;БЕНЗИН\n')"
           
-          Write-Host "Running script on local PC..."
-          python src/visualization.py > artifacts/visualization/run.log 2>&1
+          echo Запускаємо скрипт...
+          python src\visualization.py > artifacts\visualization\run.log 2>&1 || (type artifacts\visualization\run.log & exit 1)
 
       - name: 5. Збереження результатів
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: result-selfhosted-visualization
