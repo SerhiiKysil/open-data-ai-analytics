@@ -15,7 +15,7 @@ jobs:
         run: python --version
 
       - name: 3. Встановлення залежностей
-        run: pip install pandas matplotlib seaborn
+        run: python -m pip install pandas matplotlib seaborn
 
       - name: 4. Підготовка даних і запуск візуалізації
         shell: cmd
