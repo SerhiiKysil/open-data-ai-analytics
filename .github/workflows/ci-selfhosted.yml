@@ -22,10 +22,11 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path artifacts/visualization
           New-Item -ItemType Directory -Force -Path data/raw
-          "BRAND;MAKE;MAKE_YEAR;COLOR;FUEL" > data/raw/reestrtz01.01.2026.csv
-          "TOYOTA;CAMRY;2020;БІЛИЙ;БЕНЗИН" >> data/raw/reestrtz01.01.2026.csv
           
-          Write-Host "Запускаємо скрипт на локальному ПК..."
+          "BRAND;MAKE;MAKE_YEAR;COLOR;FUEL" | Out-File -FilePath data/raw/reestrtz01.01.2026.csv -Encoding utf8
+          "TOYOTA;CAMRY;2020;WHITE;GAS" | Out-File -FilePath data/raw/reestrtz01.01.2026.csv -Append -Encoding utf8
+          
+          Write-Host "Running script on local PC..."
           python src/visualization.py > artifacts/visualization/run.log 2>&1
 
       - name: 5. Збереження результатів
