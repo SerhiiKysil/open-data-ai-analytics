@@ -21,6 +21,10 @@ jobs:
         shell: cmd
         run: |
           if not exist "artifacts\visualization" mkdir "artifacts\visualization"
+          if not exist "data\raw" mkdir "data\raw"
+          
+          echo Копіюємо великий датасет з безпечного місця...
+          copy "C:\Users\Serg\dataset\reestrtz01.01.2026.csv" "data\raw\reestrtz01.01.2026.csv"
           
           echo Запускаємо скрипт...
           python src\visualization.py > artifacts\visualization\run.log 2>&1 || (type artifacts\visualization\run.log & exit 1)
