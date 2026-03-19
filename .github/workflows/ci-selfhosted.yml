@@ -21,10 +21,6 @@ jobs:
         shell: cmd
         run: |
           if not exist "artifacts\visualization" mkdir "artifacts\visualization"
-          if not exist "data\raw" mkdir "data\raw"
-          
-          echo Створюємо файл через Python...
-          python -c "with open('data/raw/reestrtz01.01.2026.csv', 'w', encoding='utf-8') as f: f.write('BRAND;MAKE;MAKE_YEAR;COLOR;FUEL\nTOYOTA;CAMRY;2020;БІЛИЙ;БЕНЗИН\n')"
           
           echo Запускаємо скрипт...
           python src\visualization.py > artifacts\visualization\run.log 2>&1 || (type artifacts\visualization\run.log & exit 1)
